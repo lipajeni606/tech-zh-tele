@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Policy - QUANT.LAB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-primary: #1e1e1e;
+            --text-secondary: #57606a;
+            --text-tertiary: #8b949e;
+            --accent-color: #3776AB;
+            --border-color: #d0d7de;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+            --max-width: 760px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-sans); line-height: 1.7; }
+        
+        .layout { display: flex; flex-direction: column; min-height: 100vh; }
+        
+        /* Nav */
+        .site-nav { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: #fff; position: sticky; top: 0; z-index: 100; }
+        .nav-brand { font-family: var(--font-mono); font-weight: 700; font-size: 1rem; text-decoration: none; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem; }
+        .nav-brand::before { content: '>'; color: var(--accent-color); }
+        .nav-items { display: flex; gap: 2rem; }
+        .nav-link { font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+        .nav-link:hover { color: var(--accent-color); }
+
+        /* Page Content */
+        .page-container { width: 100%; max-width: var(--max-width); margin: 4rem auto; padding: 0 1.5rem; flex-grow: 1; }
+        .page-header { margin-bottom: 3rem; border-bottom: 1px solid var(--border-color); padding-bottom: 2rem; }
+        .page-title { font-size: 2.5rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 1rem; color: var(--text-primary); }
+        
+        .content h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--text-primary); }
+        .content p { margin-bottom: 1.5rem; color: var(--text-secondary); }
+        .content ul { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-secondary); }
+        .content li { margin-bottom: 0.5rem; }
+
+        /* Footer */
+        .site-footer { padding: 3rem 2rem; border-top: 1px solid var(--border-color); font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-tertiary); margin-top: auto; }
+        .footer-content { max-width: var(--max-width); margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; }
+        .footer-links { display: flex; gap: 1.5rem; justify-content: center; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; }
+        .footer-links a:hover { color: var(--accent-color); }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <nav class="site-nav">
+        <a href="index.html" class="nav-brand">QUANT.LAB</a>
+        <div class="nav-items">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+    </nav>
+
+    <main class="page-container">
+        <header class="page-header">
+            <h1 class="page-title">Cookie Policy</h1>
+            <p style="color: var(--text-tertiary);">Last Updated: December 25, 2025</p>
+        </header>
+
+        <div class="content">
+            <h2>1. What Are Cookies</h2>
+            <p>Cookies are small text files that are stored on your computer or mobile device when you visit a website. They allow the website to remember your actions and preferences (such as login, language, font size, and other display preferences) over a period of time, so you don’t have to keep re-entering them whenever you come back to the site or browse from one page to another.</p>
+
+            <h2>2. How We Use Cookies</h2>
+            <p>We use cookies to:</p>
+            <ul>
+                <li>Ensure the website functions properly (Strictly Necessary Cookies).</li>
+                <li>Analyze visitor traffic and behavior to improve our content (Performance Cookies).</li>
+                <li>Remember your preferences and settings (Functional Cookies).</li>
+            </ul>
+
+            <h2>3. Managing Cookies</h2>
+            <p>You can control and/or delete cookies as you wish. You can delete all cookies that are already on your computer and you can set most browsers to prevent them from being placed. If you do this, however, you may have to manually adjust some preferences every time you visit a site and some services and functionalities may not work.</p>
+
+            <h2>4. Updates to This Policy</h2>
+            <p>We may update this Cookie Policy from time to time. We encourage you to review this policy periodically to stay informed about our use of cookies.</p>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="about.html">About Us</a>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+                <a href="cookie.html">Cookie Policy</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div style="text-align: center;">&copy; 2025 QUANT.LAB Research. All rights reserved.</div>
+        </div>
+    </footer>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jet-Engine-LIF-Tech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Roboto+Mono:wght@300;400;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-chamber: #050505;
+            --bg-plasma: #0a0a0f;
+            --text-primary: #e0e0e0;
+            --text-secondary: #7e57c2;
+            --accent-laser: #d500f9; /* Laser Purple */
+            --accent-flame: #ff6d00; /* Combustion Orange */
+            --accent-heat: #ff3d00; /* Thermal Red */
+            --accent-cool: #00b0ff; /* Cooling Flow */
+            --border-glow: #4a148c;
+            --code-bg: #0d0d14;
+            
+            --font-display: 'Syncopate', sans-serif;
+            --font-mono: 'Roboto Mono', monospace;
+            --font-zh: 'Noto Sans TC', sans-serif;
+            
+            --max-width: 1000px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-chamber);
+            color: var(--text-primary);
+            font-family: var(--font-zh);
+            line-height: 2;
+            background-image: 
+                linear-gradient(rgba(213, 0, 249, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(213, 0, 249, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        .syntax-keyword { color: #d500f9; }
+        .syntax-function { color: #00b0ff; }
+        .syntax-string { color: #ff6d00; }
+        .syntax-comment { color: #757575; font-style: italic; }
+        .syntax-class { color: #ff3d00; }
+
+        .layout {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Nav */
+        .site-nav {
+            padding: 1.5rem 0;
+            background: rgba(5, 5, 5, 0.95);
+            border-bottom: 2px solid var(--accent-laser);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(213, 0, 249, 0.3);
+        }
+
+        .nav-brand {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 700;
+            text-shadow: 0 0 10px var(--accent-laser);
+        }
+
+        .nav-brand span { color: var(--accent-laser); }
+
+        /* Header */
+        .article-container {
+            width: 100%;
+            max-width: var(--max-width);
+            margin: 5rem auto;
+            padding: 0 2rem;
+        }
+
+        .laser-status {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-laser);
+            border: 1px solid var(--accent-laser);
+            padding: 0.4rem 1rem;
+            display: inline-block;
+            margin-bottom: 2rem;
+            background: rgba(213, 0, 249, 0.05);
+            box-shadow: 0 0 10px rgba(213, 0, 249, 0.2);
+        }
+
+        .article-title {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            color: #fff;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #fff, #b388ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .article-subtitle {
+            font-family: var(--font-zh);
+            font-size: 1.2rem;
+            color: #b39ddb;
+            font-weight: 300;
+            line-height: 1.8;
+            padding-left: 1.5rem;
+            border-left: 4px solid var(--accent-flame);
+            margin-bottom: 4rem;
+        }
+
+        /* Content */
+        .content {
+            font-size: 1.1rem;
+            color: #bdbdbd;
+        }
+
+        .content h2 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            color: var(--accent-laser);
+            margin-top: 5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .content h2::before {
+            content: '>>';
+            color: var(--accent-flame);
+            font-size: 1.2rem;
+        }
+
+        .content p {
+            margin-bottom: 2rem;
+            text-align: justify;
+            text-justify: inter-ideograph;
+        }
+
+        .content strong {
+            color: #fff;
+            font-weight: 500;
+            text-shadow: 0 0 5px rgba(255,255,255,0.3);
+        }
+
+        /* Visual: Combustion LIF Simulation */
+        .combustion-visual {
+            background: #000;
+            border: 1px solid var(--border-glow);
+            padding: 0;
+            margin: 4rem 0;
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow: 0 0 30px rgba(74, 20, 140, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .laser-sheet {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: var(--accent-laser);
+            box-shadow: 0 0 20px var(--accent-laser), 0 0 40px var(--accent-laser);
+            z-index: 10;
+            animation: scan-laser 3s linear infinite;
+            opacity: 0.8;
+        }
+
+        .flame-field {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(255, 109, 0, 0.2), transparent 60%);
+            mix-blend-mode: screen;
+        }
+
+        .turbulence-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--accent-flame);
+            border-radius: 50%;
+            opacity: 0;
+            animation: flow-burn 2s linear infinite;
+        }
+
+        /* Generate random particles via JS or multiple fixed ones */
+        .particle:nth-child(1) { width: 4px; height: 4px; top: 50%; left: 0; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 6px; height: 6px; top: 45%; left: 10%; animation-delay: 0.2s; }
+        .particle:nth-child(3) { width: 3px; height: 3px; top: 55%; left: 5%; animation-delay: 0.5s; }
+        .particle:nth-child(4) { width: 5px; height: 5px; top: 50%; left: 0; animation-delay: 0.8s; }
+        
+        .oh-radical {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: transparent;
+            box-shadow: 0 0 10px var(--accent-laser);
+            border-radius: 50%;
+            opacity: 0;
+        }
+        
+        /* When laser passes, OH lights up */
+        .oh-radical.active {
+            background: #fff;
+            opacity: 1;
+            transition: opacity 0.1s;
+        }
+
+        @keyframes scan-laser {
+            0% { left: 0%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { left: 100%; opacity: 0; }
+        }
+
+        @keyframes flow-burn {
+            0% { transform: translateX(0) scale(1); opacity: 0.8; background: #fff; }
+            50% { background: var(--accent-flame); }
+            100% { transform: translateX(800px) scale(0); opacity: 0; background: #333; }
+        }
+
+        .data-hud {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            font-family: var(--font-mono);
+            color: var(--accent-laser);
+            font-size: 0.8rem;
+            background: rgba(0,0,0,0.7);
+            padding: 10px;
+            border: 1px solid var(--accent-laser);
+        }
+
+        /* Code Block */
+        .code-block {
+            background: var(--code-bg);
+            border: 1px solid var(--border-glow);
+            margin: 4rem 0;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            position: relative;
+        }
+        
+        .code-block::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, var(--accent-laser), transparent);
+        }
+
+        .code-header {
+            padding: 0.8rem 1.5rem;
+            background: rgba(213, 0, 249, 0.05);
+            border-bottom: 1px solid var(--border-glow);
+            color: var(--accent-laser);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .code-content {
+            padding: 2rem;
+            overflow-x: auto;
+            color: #e0e0e0;
+        }
+
+        /* Footer */
+        .site-footer {
+            margin-top: auto;
+            border-top: 1px solid var(--border-glow);
+            padding: 6rem 0;
+            background: #020202;
+            font-family: var(--font-zh);
+        }
+
+        .footer-content {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4rem;
+        }
+
+        .footer-col h4 {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+        }
+
+        .footer-col a {
+            display: block;
+            color: #b39ddb;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover { color: var(--accent-laser); text-shadow: 0 0 8px var(--accent-laser); }
+
+        .lab-badge {
+            border: 1px solid var(--accent-flame);
+            color: var(--accent-flame);
+            padding: 0.5rem;
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        /* Cookie Banner */
+        .cookie-banner {
+            position: fixed; bottom: 20px; right: 20px;
+            width: 320px;
+            background: rgba(10, 10, 15, 0.95);
+            border: 1px solid var(--accent-laser);
+            padding: 1.5rem;
+            z-index: 999;
+            transform: translateX(150%);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 0 30px rgba(213, 0, 249, 0.2);
+        }
+
+        .cookie-banner.visible { transform: translateX(0); }
+
+        .cookie-btn {
+            background: transparent;
+            color: var(--accent-laser);
+            border: 1px solid var(--accent-laser);
+            padding: 0.5rem 1.5rem;
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .cookie-btn:hover { background: var(--accent-laser); color: #fff; }
+
+        @media (max-width: 768px) {
+            .article-title { font-size: 2.2rem; }
+            .footer-content { grid-template-columns: 1fr; gap: 3rem; }
+            .combustion-visual { height: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="site-nav">
+        <a href="#" class="nav-brand">AERO<span>.LIF</span></a>
+    </nav>
+
+    <div class="layout">
+        <main class="article-container">
+            <header class="article-header">
+                <span class="laser-status">LASER: Nd:YAG 266nm | PULSE: 10Hz</span>
+                <h1 class="article-title">Jet-Engine-LIF-Tech</h1>
+                <div class="article-subtitle">
+                    高效能噴射引擎的內燃氣流診斷：細分領域內的雷射誘導螢光（LIF）測速技術、燃燒室內的湍流火焰結構與推力衰減模型
+                </div>
+            </header>
+
+            <article class="content">
+                <h2>01 // 穿透烈焰的視線：光學診斷革命</h2>
+                <p>在航空發動機的燃燒室中，溫度超過 2000K，流速達到馬赫數級別。傳統的接觸式探針（如熱電偶或皮托管）不僅會擾動流場，還極易在瞬間熔毀。**雷射誘導螢光（LIF, Laser-Induced Fluorescence）**技術作為一種非侵入式光學診斷手段，成為了解析極端環境下複雜流動結構的“上帝之眼”。</p>
+                <p>LIF 的原理是利用可調諧脈衝雷射將特定波長的能量注入流場，激發燃燒中間產物（如 OH*, CH*, NO）的電子躍遷。當電子返回基態時，會釋放出特徵螢光。通過 **ICCD 相機** 捕捉這些螢光信號，我們可以獲得燃燒室內組分濃度、溫度場甚至速度場的二維高解析度圖像（PLIF），精度可達微秒級。</p>
+
+                <div class="combustion-visual">
+                    <div class="flame-field"></div>
+                    <div class="turbulence-particles">
+                        <!-- JS will populate particles -->
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                    </div>
+                    <div class="laser-sheet"></div>
+                    <div class="data-hud">
+                        T_max: 2350 K<br>
+                        Species: OH Radical<br>
+                        Re_t: 1.5 x 10^5
+                    </div>
+                </div>
+
+                <h2>02 // 捕捉湍流火焰的精細結構</h2>
+                <p>高效能引擎追求極限的貧油燃燒（Lean Burn）以降低排放，但這會導致火焰極不穩定。湍流與化學反應的相互作用（Turbulence-Chemistry Interaction）產生了極其複雜的皺褶火焰鋒面（Wrinkled Flame Front）。LIF 技術特別適用於追蹤 **OH 基團**，因為它標誌著高溫反應區的邊界。</p>
+                <p>通過高頻 PLIF 成像（>10 kHz），研究人員可以計算 **Damköhler 數**，判斷燃燒處於分佈反應區還是小火焰區。這對於驗證 **大渦模擬（LES）** 模型的亞網格尺度（Sub-grid Scale）封閉至關重要。實驗數據顯示，在加力燃燒室（Afterburner）啟動瞬間，火焰的局部熄火（Local Extinction）與再點燃是導致推力波動的主要原因。</p>
+
+                <h2>03 // 推力衰減與熱聲振蕩模型</h2>
+                <p>燃燒室內的壓力波與熱釋放率如果發生耦合，會產生破壞性的**熱聲振蕩（Thermoacoustic Instability）**，俗稱“嗡鳴”。這不僅會導致推力嚴重衰減，甚至能震碎燃燒室襯套。利用雙色 LIF 測溫技術（Two-Color LIF），我們可以重建瑞利準則（Rayleigh Criterion）指數圖，識別出正反饋放大的區域。</p>
+                <p>基於 LIF 數據校準的推力衰減模型表明，當當量比（Equivalence Ratio）接近貧油熄火極限（LBO）時，火焰根部的抬升（Lift-off）高度會呈指數級波動。這為發動機控制器（FADEC）的主動燃油調節提供了關鍵的預警算法。</p>
+
+                <h2>04 // LIF 信號強度仿真代碼</h2>
+                <p>以下 Python 代碼模擬了 OH 基團在不同溫度下的 LIF 螢光信號強度。該模型基於玻爾茲曼分佈（Boltzmann Fraction）計算基態粒子數，考慮了淬滅效應（Quenching Effect），是光學診斷實驗設計的基礎。</p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>LIFSignalSimulator.py</span>
+                        <span>PYTHON 3.8</span>
+                    </div>
+                    <div class="code-content">
+<pre><span class="syntax-keyword">import</span> numpy <span class="syntax-keyword">as</span> np
+<span class="syntax-keyword">import</span> math
+
+<span class="syntax-keyword">class</span> <span class="syntax-class">LIFSimulator</span>:
+    <span class="syntax-keyword">def</span> <span class="syntax-function">__init__</span>(self, laser_energy_mj, collection_efficiency):
+        self.I_laser = laser_energy_mj  <span class="syntax-comment"># Laser intensity</span>
+        self.eta = collection_efficiency
+        <span class="syntax-comment"># Molecular constants for OH (A-X transition)</span>
+        self.E_rot = <span class="syntax-number">80.0</span>  <span class="syntax-comment"># Rotational energy level (cm^-1)</span>
+        self.B_rot = <span class="syntax-number">18.5</span>  <span class="syntax-comment"># Rotational constant</span>
+        self.A_21 = <span class="syntax-number">1.5e6</span>  <span class="syntax-comment"># Einstein coeff (s^-1)</span>
+        self.Q_coll = <span class="syntax-number">5.0e8</span> <span class="syntax-comment"># Collisional quenching rate (approx)</span>
+        
+    <span class="syntax-keyword">def</span> <span class="syntax-function">boltzmann_fraction</span>(self, T_kelvin, J_level):
+        <span class="syntax-string">"""
+        Calculate population fraction in ground rotational state J.
+        f_B = (2J+1)/Q_rot * exp(-E_J / kT)
+        """</span>
+        k_cm = <span class="syntax-number">0.695</span> <span class="syntax-comment"># Boltzmann const in cm^-1/K</span>
+        
+        <span class="syntax-comment"># Partition function Q_rot approx T / 1.4388 B</span>
+        Q_rot = T_kelvin / (<span class="syntax-number">1.4388</span> * self.B_rot)
+        
+        <span class="syntax-comment"># Energy of state J: E_J = B * J * (J+1)</span>
+        E_J = self.B_rot * J_level * (J_level + <span class="syntax-number">1</span>)
+        
+        fraction = ((<span class="syntax-number">2</span>*J_level + <span class="syntax-number">1</span>) / Q_rot) * math.exp(-E_J / (k_cm * T_kelvin))
+        <span class="syntax-keyword">return</span> fraction
+
+    <span class="syntax-keyword">def</span> <span class="syntax-function">calculate_signal</span>(self, T_kelvin, N_density, J_ground=<span class="syntax-number">1.5</span>):
+        <span class="syntax-string">"""
+        S_LIF ~ I_laser * N_density * f_B(T) * B_12 * (A / (A + Q))
+        """</span>
+        <span class="syntax-comment"># 1. Population in probed state</span>
+        f_B = self.<span class="syntax-function">boltzmann_fraction</span>(T_kelvin, J_ground)
+        
+        <span class="syntax-comment"># 2. Fluorescence Quantum Yield (Phi = A / (A + Q))</span>
+        <span class="syntax-comment"># At high pressure (10-30 bar), Q >> A, so Phi ~ A/Q</span>
+        <span class="syntax-comment"># Quenching Q scales with Pressure/Sqrt(T) approx.</span>
+        <span class="syntax-comment"># Simplified here for demo:</span>
+        phi = self.A_21 / (self.A_21 + self.Q_coll)
+        
+        <span class="syntax-comment"># 3. Signal Intensity</span>
+        <span class="syntax-comment"># B_12 absorption coeff assumed constant for line center</span>
+        B_12 = <span class="syntax-number">1.0e-5</span> 
+        
+        signal = self.eta * self.I_laser * N_density * f_B * B_12 * phi
+        <span class="syntax-keyword">return</span> signal, f_B
+
+<span class="syntax-comment"># --- Simulation Run ---</span>
+<span class="syntax-comment"># Simulating a temperature scan across a flame front</span>
+lif_sim = <span class="syntax-class">LIFSimulator</span>(laser_energy_mj=<span class="syntax-number">20.0</span>, collection_efficiency=<span class="syntax-number">0.05</span>)
+
+temps = np.linspace(<span class="syntax-number">800</span>, <span class="syntax-number">2500</span>, <span class="syntax-number">10</span>) <span class="syntax-comment"># K</span>
+oh_density = <span class="syntax-number">1e16</span> <span class="syntax-comment"># molecules/cm^3 (Assume constant for sensitivity check)</span>
+
+<span class="syntax-class">print</span>(<span class="syntax-string">f"--- OH-LIF SIGNAL SENSITIVITY ---"</span>)
+<span class="syntax-class">print</span>(<span class="syntax-string">f"Temp (K) | Boltz. Frac | Signal (a.u.)"</span>)
+<span class="syntax-class">print</span>(<span class="syntax-string">"-"</span> * <span class="syntax-number">40</span>)
+
+<span class="syntax-keyword">for</span> T <span class="syntax-keyword">in</span> temps:
+    sig, fb = lif_sim.<span class="syntax-function">calculate_signal</span>(T, oh_density)
+    <span class="syntax-class">print</span>(<span class="syntax-string">f"{T:8.0f} | {fb:.2e}    | {sig:.2e}"</span>)
+
+<span class="syntax-class">print</span>(<span class="syntax-string">"\n[Analysis]: Signal peaks around 1200-1500K for this J-state."</span>)
+<span class="syntax-class">print</span>(<span class="syntax-string">"Higher T reduces signal due to population redistribution."</span>)</pre>
+                    </div>
+                </div>
+
+                <h2>結語：從實驗室到萬米高空</h2>
+                <p>LIF 技術正在從基礎燃燒實驗室走向真實發動機試車台。隨著全固態雷射器的小型化和光纖傳輸技術的進步，未來的航空發動機將植入微型光學探頭，實時監控燃燒室的“健康指標”。這將是實現下一代高超音速推進（Scramjet）和自適應循環發動機的關鍵拼圖。</p>
+            </article>
+        </main>
+    </div>
+
+    <div class="cookie-banner">
+        <div style="font-family: var(--font-mono); font-size: 0.9rem;">
+            <strong>⚠ CLASS 4 LASER IN USE</strong><br>
+            Protective eyewear required. Cookies tracking optical data.
+        </div>
+        <button class="cookie-btn" onclick="acceptCookies()">ACKNOWLEDGE</button>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>AERO.LIF</h4>
+                <a href="#">PLIF Imaging</a>
+                <a href="#">PIV / PTV</a>
+                <a href="#">Raman Scattering</a>
+            </div>
+            <div class="footer-col">
+                <h4>Combustion</h4>
+                <a href="#">Turbulent Flames</a>
+                <a href="#">Spray Dynamics</a>
+                <a href="#">Emissions NOx</a>
+            </div>
+            <div class="footer-col">
+                <h4>Lab Contact</h4>
+                <div class="lab-badge">
+                    PROPULSION DIAGNOSTICS LAB
+                </div>
+                <div style="margin-top: 1rem;">
+                    <a href="#" style="color: #bdbdbd; font-size: 0.9rem;">
+                        4000 Mach Blvd<br>
+                        Mojave, CA 93501, USA
+                    </a>
+                    <a href="mailto:info@aero-lif.com" style="color: var(--accent-laser); margin-top: 0.5rem;">
+                        info@aero-lif.com
+                    </a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="#">Spectroscopy DB</a>
+                <a href="#">LIFBASE Guide</a>
+                <a href="#">Safety Protocols</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Interactive Particles for Flame
+        const container = document.querySelector('.turbulence-particles');
+        const laserSheet = document.querySelector('.laser-sheet');
+        
+        function createParticle() {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            // Random size
+            const size = Math.random() * 5 + 2;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            // Random start pos
+            p.style.top = (Math.random() * 80 + 10) + '%';
+            p.style.left = '0%';
+            // Random delay
+            p.style.animationDelay = Math.random() * 2 + 's';
+            
+            container.appendChild(p);
+            
+            // Check collision with laser for LIF effect
+            setInterval(() => {
+                const pRect = p.getBoundingClientRect();
+                const lRect = laserSheet.getBoundingClientRect();
+                
+                // Simple collision detection
+                if (Math.abs(pRect.left - lRect.left) < 20) {
+                    p.style.backgroundColor = '#d500f9'; // Fluorescence color
+                    p.style.boxShadow = '0 0 10px #d500f9';
+                } else {
+                    // Reset to flame color if not hit (optional, mostly one-way)
+                    // p.style.backgroundColor = ''; 
+                }
+                
+                // Cleanup
+                if (pRect.left > container.getBoundingClientRect().right) {
+                    p.remove();
+                }
+            }, 100);
+        }
+
+        setInterval(createParticle, 300);
+
+        function acceptCookies() {
+            document.querySelector('.cookie-banner').classList.remove('visible');
+            localStorage.setItem('lif_cookie', 'true');
+        }
+
+        setTimeout(() => {
+            if(!localStorage.getItem('lif_cookie')) {
+                document.querySelector('.cookie-banner').classList.add('visible');
+            }
+        }, 1000);
+
+        (function(){
+            var t = document.querySelector('.article-title');
+            if(t) document.title = t.textContent.trim();
+        })();
+    </script>
+</body>
+</html>

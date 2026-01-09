@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - QUANT.LAB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-primary: #1e1e1e;
+            --text-secondary: #57606a;
+            --text-tertiary: #8b949e;
+            --accent-color: #3776AB;
+            --border-color: #d0d7de;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+            --max-width: 760px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-sans); line-height: 1.7; }
+        
+        .layout { display: flex; flex-direction: column; min-height: 100vh; }
+        
+        /* Nav */
+        .site-nav { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: #fff; position: sticky; top: 0; z-index: 100; }
+        .nav-brand { font-family: var(--font-mono); font-weight: 700; font-size: 1rem; text-decoration: none; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem; }
+        .nav-brand::before { content: '>'; color: var(--accent-color); }
+        .nav-items { display: flex; gap: 2rem; }
+        .nav-link { font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+        .nav-link:hover { color: var(--accent-color); }
+
+        /* Page Content */
+        .page-container { width: 100%; max-width: var(--max-width); margin: 4rem auto; padding: 0 1.5rem; flex-grow: 1; }
+        .page-header { margin-bottom: 3rem; border-bottom: 1px solid var(--border-color); padding-bottom: 2rem; }
+        .page-title { font-size: 2.5rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 1rem; color: var(--text-primary); }
+        
+        .content h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--text-primary); }
+        .content p { margin-bottom: 1.5rem; color: var(--text-secondary); }
+        .content ul { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-secondary); }
+        .content li { margin-bottom: 0.5rem; }
+
+        /* Footer */
+        .site-footer { padding: 3rem 2rem; border-top: 1px solid var(--border-color); font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-tertiary); margin-top: auto; }
+        .footer-content { max-width: var(--max-width); margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; }
+        .footer-links { display: flex; gap: 1.5rem; justify-content: center; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; }
+        .footer-links a:hover { color: var(--accent-color); }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <nav class="site-nav">
+        <a href="index.html" class="nav-brand">QUANT.LAB</a>
+        <div class="nav-items">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+    </nav>
+
+    <main class="page-container">
+        <header class="page-header">
+            <h1 class="page-title">About Us</h1>
+        </header>
+
+        <div class="content">
+            <p>Welcome to <strong>QUANT.LAB</strong>, a premier destination for quantitative trading research and data modeling education. Founded in 2025, our mission is to democratize access to institutional-grade algorithmic trading knowledge using Python.</p>
+
+            <h2>Our Mission</h2>
+            <p>In the rapidly evolving world of financial markets, data is the new currency. We believe that rigorous data analysis and scientific modeling are the keys to understanding market dynamics. Our goal is to bridge the gap between academic theory and practical trading execution.</p>
+
+            <h2>What We Do</h2>
+            <ul>
+                <li><strong>Research:</strong> We conduct in-depth backtesting of trading strategies across various asset classes.</li>
+                <li><strong>Education:</strong> We provide comprehensive tutorials on Python for Finance, covering libraries like Pandas, NumPy, and Scikit-learn.</li>
+                <li><strong>Open Source:</strong> We contribute to the developer community by sharing reusable code snippets and modeling frameworks.</li>
+            </ul>
+
+            <h2>Our Team</h2>
+            <p>We are a diverse team of data scientists, financial analysts, and software engineers passionate about the intersection of technology and finance. We adhere to a strict code of ethics, prioritizing data integrity and transparency in all our publications.</p>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="about.html">About Us</a>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div style="text-align: center;">&copy; 2025 QUANT.LAB Research. All rights reserved.</div>
+        </div>
+    </footer>
+</div>
+
+</body>
+</html>

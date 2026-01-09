@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - QUANT.LAB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-primary: #1e1e1e;
+            --text-secondary: #57606a;
+            --text-tertiary: #8b949e;
+            --accent-color: #3776AB;
+            --border-color: #d0d7de;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+            --max-width: 760px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-sans); line-height: 1.7; }
+        
+        .layout { display: flex; flex-direction: column; min-height: 100vh; }
+        
+        /* Nav */
+        .site-nav { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: #fff; position: sticky; top: 0; z-index: 100; }
+        .nav-brand { font-family: var(--font-mono); font-weight: 700; font-size: 1rem; text-decoration: none; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem; }
+        .nav-brand::before { content: '>'; color: var(--accent-color); }
+        .nav-items { display: flex; gap: 2rem; }
+        .nav-link { font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+        .nav-link:hover { color: var(--accent-color); }
+
+        /* Page Content */
+        .page-container { width: 100%; max-width: var(--max-width); margin: 4rem auto; padding: 0 1.5rem; flex-grow: 1; }
+        .page-header { margin-bottom: 3rem; border-bottom: 1px solid var(--border-color); padding-bottom: 2rem; }
+        .page-title { font-size: 2.5rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 1rem; color: var(--text-primary); }
+        
+        .contact-details {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: #f6f8fa;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .contact-item {
+            margin-bottom: 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+        }
+
+        .contact-item strong {
+            display: block;
+            color: var(--text-tertiary);
+            font-size: 0.8rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-input, .form-textarea {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: var(--accent-color);
+            color: #fff;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            align-self: flex-start;
+            transition: opacity 0.2s;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        .site-footer { padding: 3rem 2rem; border-top: 1px solid var(--border-color); font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-tertiary); margin-top: auto; }
+        .footer-content { max-width: var(--max-width); margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; }
+        .footer-links { display: flex; gap: 1.5rem; justify-content: center; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; }
+        .footer-links a:hover { color: var(--accent-color); }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <nav class="site-nav">
+        <a href="index.html" class="nav-brand">QUANT.LAB</a>
+        <div class="nav-items">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+    </nav>
+
+    <main class="page-container">
+        <header class="page-header">
+            <h1 class="page-title">Contact Us</h1>
+            <p style="color: var(--text-secondary);">Have a question about our research or data models? We'd love to hear from you.</p>
+        </header>
+
+        <div class="content">
+            <div class="contact-details">
+                <div class="contact-item">
+                    <strong>Address</strong>
+                    100 Tech Park Blvd, Suite 300<br>
+                    Cambridge, MA 02142, USA
+                </div>
+                <div class="contact-item">
+                    <strong>Email</strong>
+                    contact@quantlab.tech
+                </div>
+                <div class="contact-item">
+                    <strong>Office Hours</strong>
+                    Mon - Fri: 9:00 AM - 6:00 PM EST
+                </div>
+            </div>
+
+            <form class="contact-form" action="#" method="POST" onsubmit="event.preventDefault(); alert('Thank you for your message. We will get back to you shortly.');">
+                <div class="form-group">
+                    <label class="form-label" for="name">Name</label>
+                    <input class="form-input" type="text" id="name" name="name" required placeholder="Your name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="email">Email</label>
+                    <input class="form-input" type="email" id="email" name="email" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="subject">Subject</label>
+                    <input class="form-input" type="text" id="subject" name="subject" required placeholder="How can we help?">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="message">Message</label>
+                    <textarea class="form-textarea" id="message" name="message" required placeholder="Your message..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="about.html">About Us</a>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div style="text-align: center;">&copy; 2025 QUANT.LAB Research. All rights reserved.</div>
+        </div>
+    </footer>
+</div>
+
+</body>
+</html>
