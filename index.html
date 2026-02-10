@@ -1,14 +1,520 @@
-<!doctype html>
-<html lang="">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="favicon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QBB LIVE</title>
-    <script type="module" crossorigin src="./index-CWnQX2Nu.js"></script>
-    <link rel="stylesheet" crossorigin href="./index-DXEwt0hN.css">
-  </head>
-  <body>
-    <div id="app"></div>
-  </body>
+    <link rel="icon" href="favicon.png">
+    <style>
+        /* Reset & Base Styles */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+        img { max-width: 100%; display: block; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        
+        /* Utility Classes */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .text-center { text-align: center; }
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-4 { gap: 1rem; }
+        .gap-8 { gap: 2rem; }
+        .py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .font-bold { font-weight: 700; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .text-red { color: #e1363c; }
+
+        /* Header */
+        header {
+            background-color: #000;
+            color: #fff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-wrap { display: flex; justify-content: space-between; align-items: center; }
+        .logo img { height: 40px; }
+        .lang-switch { font-size: 0.9rem; cursor: pointer; }
+
+        /* Hero Section */
+        .hero {
+            background-image: url('./bg_banner-DCZhCLqF.png');
+            background-size: cover;
+            background-position: center;
+            height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.85), rgba(124, 58, 237, 0.85));
+            z-index: 0;
+        }
+        .hero-content { position: relative; z-index: 1; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; }
+
+        /* Section 1: Why Give Up */
+        .why-section { background-color: #fff; }
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        .why-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .why-card:hover { transform: translateY(-10px); }
+
+        /* Mobile specific styles for Why Section */
+        @media (max-width: 768px) {
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Section 2: What is QBB */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .feature-item {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        .feature-item:hover { transform: translateY(-5px); }
+        .feature-icon { width: 64px; height: 64px; margin: 0 auto 1rem; }
+
+        /* Section 3: Revenue */
+        .revenue-cards {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .revenue-card {
+            width: 300px;
+            height: 180px;
+            border-radius: 16px;
+            padding: 1.5rem;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .revenue-card h3 { font-size: 2rem; margin-bottom: 0.5rem; }
+
+        /* Section 4: Comparison */
+        .comparison-section {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            color: #fff;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        .comparison-box {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 16px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Section 5: Target Audience */
+        .audience-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .audience-item { 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 1rem;
+        }
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+            border: 4px solid #fff;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            object-fit: cover;
+        }
+
+        /* Section 6: How to Start */
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            max-width: 900px;
+            margin: 3rem auto 0;
+            position: relative;
+        }
+        .step-item {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+        .step-num {
+            width: 40px;
+            height: 40px;
+            background: #e1363c;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #888;
+            padding: 2rem 0;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        /* Floating Button */
+        .float-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #ffe812; /* Kakao Yellow */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.2s;
+        }
+        .float-btn:hover { transform: scale(1.1); }
+        .float-icon { width: 30px; height: 30px; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .audience-grid, .steps { flex-direction: column; grid-template-columns: 1fr; }
+            .steps { flex-direction: column; gap: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-wrap">
+            <a href="http://qr.kakao.com/talk/lRlv5CUyWb4JEpxh2WY.rMVhxaw-" class="logo">
+                <img src="logo-light-B3WQpI7x.png" alt="QBB LIVE Logo">
+            </a>
+            <div class="lang-switch">한국어 ▼</div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content container">
+            <h1 style="font-size: 4rem; font-weight: 800; margin-bottom: 2rem;">AI 라이브, 방송을 더 쉽게</h1>
+            <p style="font-size: 1.5rem; margin-bottom: 3rem; opacity: 0.9; line-height: 1.6;">하나의 일을 더 하는 게 아니라,<br>시스템이 대신 일하게 하는 것입니다.</p>
+            
+            <div>
+                <a href="http://qr.kakao.com/talk/lRlv5CUyWb4JEpxh2WY.rMVhxaw-" style="display: inline-block; background: #fff; color: #7c3aed; padding: 1.2rem 2.5rem; border-radius: 50px; font-weight: bold; font-size: 1.1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.2); transition: transform 0.2s;">
+                    👉 KakaoTalk 추가하고 시스템 절차 알아보기
+                </a>
+                <p style="margin-top: 1.5rem; font-size: 1rem; opacity: 0.8;">추가 후 "QBB" 메세지 발송하여 체험자료 받기</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 1: Problem -->
+    <section class="py-12 why-section">
+        <div class="container">
+            <h2 class="text-center text-3xl font-bold mb-4" style="color: #333;">왜 점점 더 많은 사람들이<br>전통적인 부업을 포기할까요?</h2>
+            <p class="text-center mb-12" style="color: #a855f7; font-weight: bold;">문제는 노력이 부족해서가 아니라, 낡은 방식으로 돈을 벌려고 하기 때문입니다.</p>
+            
+            <div class="why-grid">
+                <div class="why-card">
+                    <div style="width: 60px; height: 60px; background: #e9d5ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                        <img src="icon_old_live-CN-zmbLX.png" alt="Time" style="width: 24px; height: 24px;">
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">전통 라이브</h3>
+                    <p style="color: #666; font-weight: 500;">시간 싸움, 체력 싸움, 불안정</p>
+                </div>
+                <div class="why-card">
+                    <div style="width: 60px; height: 60px; background: #e9d5ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                        <img src="icon_n-CPTznY5H.png" alt="Complex" style="width: 24px; height: 24px;">
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">부업 프로젝트</h3>
+                    <p style="color: #666; font-weight: 500;">복잡한 절차, 지속하기 어려움</p>
+                </div>
+                <div class="why-card">
+                    <div style="width: 60px; height: 60px; background: #fce7f3; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                        <img src="avatar_circle_1-BDcd6QW0.png" alt="Person" style="width: 24px; height: 24px; border-radius: 50%;">
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">개인 능력</h3>
+                    <p style="color: #666; font-weight: 500;">복제 불가, 규모화 어려움</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Solution -->
+    <section class="py-12" style="background: #fff; overflow: hidden;">
+        <div class="container">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-16">
+                <!-- Left: Image -->
+                <div style="flex: 1; display: flex; justify-content: center; align-items: center;">
+                    <!-- Main Image (Clean) -->
+                    <img src="./bg_why_card-imaHDlnw.png" alt="QBB LIVE App" style="width: 100%; max-width: 400px; height: auto; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                </div>
+                
+                <!-- Right: Content -->
+                <div style="flex: 1; text-align: left;">
+                    <h2 class="text-3xl font-bold mb-2">QBB LIVE란?</h2>
+                    <p class="text-xl font-bold mb-6" style="color: #a855f7;">누구나 라이브 시스템을 운영할 수 있는 플랫폼</p>
+                    
+                    <p class="mb-8" style="color: #555; line-height: 1.8;">
+                        QBB LIVE는 AI 자동 라이브 방송 플랫폼이기 때문에.<br>
+                        우리가 BJ로 되는 게 아니라 시스템이 라이브 절차를 대신해 줍니다:
+                    </p>
+
+                    <div class="flex flex-col gap-6">
+                        <div class="flex items-center gap-4">
+                            <div style="width: 50px; height: 50px; background: #f3e8ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <img src="icon_play-D6SFAYtP.png" alt="Play" style="width: 24px; height: 24px;">
+                            </div>
+                            <span class="font-bold text-lg">자동 방송 시작</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div style="width: 50px; height: 50px; background: #f3e8ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <img src="icon_comment-D7fgkrHR.png" alt="Comment" style="width: 24px; height: 24px;">
+                            </div>
+                            <span class="font-bold text-lg">자동 상품 설명</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div style="width: 50px; height: 50px; background: #f3e8ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <img src="icon_shop-94UOoqAQ.png" alt="Shop" style="width: 24px; height: 24px;">
+                            </div>
+                            <span class="font-bold text-lg">자동 상품 노출</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div style="width: 50px; height: 50px; background: #f3e8ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <img src="icon_auto_live-Dsh6OAkR.png" alt="Auto" style="width: 24px; height: 24px;">
+                            </div>
+                            <span class="font-bold text-lg">자동 라이브 운영</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Actual Scenes -->
+    <section class="py-12">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">실제 운영 장면</h2>
+                <p class="text-xl font-bold" style="color: #a855f7;">내가 일하는 게 아니라 시스템이 일합니다.</p>
+            </div>
+            
+            <div class="why-grid">
+                <!-- Scene 1 -->
+                <div>
+                    <div style="border-radius: 20px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); margin-bottom: 1.5rem;">
+                        <img src="bg_card_1-Qsewx2mv.png" alt="Scene 1" style="width: 100%; height: auto; display: block;">
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div style="width: 40px; height: 40px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="fill: #a855f7; width: 32px; height: 32px;"><path d="M88 0C74.7 0 64 10.7 64 24c0 38.9 23.4 59.4 39.1 73.1l1.1 1C120.5 112.3 128 119.9 128 136c0 13.3 10.7 24 24 24s24-10.7 24-24c0-38.9-23.4-59.4-39.1-73.1l-1.1-1C119.5 47.7 112 40.1 112 24c0-13.3-10.7-24-24-24zM32 192c-17.7 0-32 14.3-32 32V416c0 53 43 96 96 96H288c53 0 96-43 96-96h16c61.9 0 112-50.1 112-112s-50.1-112-112-112H352 32zm352 64h16c26.5 0 48 21.5 48 48s-21.5 48-48 48H384V256zM224 24c0-13.3-10.7-24-24-24s-24 10.7-24 24c0 38.9 23.4 59.4 39.1 73.1l1.1 1C232.5 112.3 240 119.9 240 136c0 13.3 10.7 24 24 24s24-10.7 24-24c0-38.9-23.4-59.4-39.1-73.1l-1.1-1C231.5 47.7 224 40.1 224 24z"/></svg>
+                        </div>
+                        <span class="font-bold text-lg text-left">외출 중에도 시스템이 알아서 상품 판매</span>
+                    </div>
+                </div>
+
+                <!-- Scene 2 -->
+                <div>
+                    <div style="border-radius: 20px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); margin-bottom: 1.5rem;">
+                        <img src="bg_card_2-BezUVIad.png" alt="Scene 2" style="width: 100%; height: auto; display: block;">
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div style="width: 40px; height: 40px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" style="fill: #a855f7; width: 32px; height: 32px;"><path d="M48 0C21.5 0 0 21.5 0 48V464c0 26.5 21.5 48 48 48h96V432c0-26.5 21.5-48 48-48s48 21.5 48 48v80h96c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48H48zM64 240c0-13.3 10.7-24 24-24h32c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H88c-13.3 0-24-10.7-24-24V240zm112-88c0 13.3-10.7 24-24 24H120c-13.3 0-24-10.7-24-24V120c0-13.3 10.7-24 24-24h32c13.3 0 24 10.7 24 24v32zm-48 88c0-13.3 10.7-24 24-24h32c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H152c-13.3 0-24-10.7-24-24V240zm64-88c0 13.3-10.7 24-24 24H216c-13.3 0-24-10.7-24-24V120c0-13.3 10.7-24 24-24h32c13.3 0 24 10.7 24 24v32zm-48 88c0-13.3 10.7-24 24-24h32c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H248c-13.3 0-24-10.7-24-24V240zm64-88c0 13.3-10.7 24-24 24H312c-13.3 0-24-10.7-24-24V120c0-13.3 10.7-24 24-24h32c13.3 0 24 10.7 24 24v32z"/></svg>
+                        </div>
+                        <span class="font-bold text-lg text-left">출근 중에도 시스템이 알아서 상품 판매</span>
+                    </div>
+                </div>
+
+                <!-- Scene 3 -->
+                <div>
+                    <div style="border-radius: 20px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); margin-bottom: 1.5rem;">
+                        <img src="bg_card_3-BR5kdLpj.png" alt="Scene 3" style="width: 100%; height: auto; display: block;">
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div style="width: 40px; height: 40px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" style="fill: #a855f7; width: 32px; height: 32px;"><path d="M32 32c17.7 0 32 14.3 32 32V400c0 8.8 7.2 16 16 16H224V32c0-17.7 14.3-32 32-32s32 14.3 32 32V416h48V32c0-17.7 14.3-32 32-32s32 14.3 32 32V416h48V208c0-44.2 35.8-80 80-80h32c44.2 0 80 35.8 80 80V416h32c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32zM176 288c-44.2 0-80-35.8-80-80s35.8-80 80-80s80 35.8 80 80s-35.8 80-80 80z"/></svg>
+                        </div>
+                        <span class="font-bold text-lg text-left">휴식 중에도 시스템이 알아서 상품 판매</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Comparison -->
+    <section class="comparison-section">
+        <div class="container">
+            <h2 class="text-3xl font-bold mb-8">전통 방식 vs AI 시스템 방식</h2>
+            <div class="comparison-box">
+                <div class="flex justify-between text-left gap-8" style="flex-wrap: wrap;">
+                    <div style="flex: 1;">
+                        <h3 class="text-xl font-bold mb-4" style="color: #ffcccc;">전통 부업</h3>
+                        <ul style="list-style: disc; padding-left: 20px;">
+                            <li class="mb-2">오랜 시간 조작</li>
+                            <li class="mb-2">개인 능력 의존</li>
+                            <li class="mb-2">불안정한 수입</li>
+                            <li class="mb-2">복제 불가</li>
+                        </ul>
+                    </div>
+                    <div style="width: 2px; background: rgba(255,255,255,0.3);"></div>
+                    <div style="flex: 1;">
+                        <h3 class="text-xl font-bold mb-4" style="color: #ccffcc;">QBB LIVE</h3>
+                        <ul style="list-style: disc; padding-left: 20px;">
+                            <li class="mb-2">매일 1분만 활성화</li>
+                            <li class="mb-2">시스템이 자동 운영</li>
+                            <li class="mb-2">지속적 누적</li>
+                            <li class="mb-2">플랫폼 표준화</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Target Audience -->
+    <section class="py-12">
+        <div class="container">
+            <h2 class="text-center text-3xl font-bold mb-4">이 시스템은 어떤 사람들한테 어울릴까요?</h2>
+            <p class="text-center mb-12">경험 필요 없음! 노출 필요 없음! 밤샘 필요 없음!</p>
+            
+            <div class="audience-grid">
+                <div class="audience-item">
+                    <img src="avatar_circle_1-BDcd6QW0.png" alt="User 1" class="avatar">
+                    <h3 class="text-xl font-bold">직장인</h3>
+                    <p class="text-gray-500">투잡으로 추가 수익 창출</p>
+                </div>
+                <div class="audience-item">
+                    <img src="avatar_circle_2-CGrGYKxq.png" alt="User 2" class="avatar">
+                    <h3 class="text-xl font-bold">육아 맘 / 프리랜서</h3>
+                    <p class="text-gray-500">시간 공간 제약 없이</p>
+                </div>
+                <div class="audience-item">
+                    <img src="avatar_circle_3-GTKt5qgB.png" alt="User 3" class="avatar">
+                    <h3 class="text-xl font-bold">변화를 원하는 분</h3>
+                    <p class="text-gray-500">돈 버는 방법을 바꾸고 싶다면</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: How to Start -->
+    <section class="py-12" style="background: #f9f9f9;">
+        <div class="container">
+            <h2 class="text-center text-3xl font-bold mb-12">어떻게 시작하나요?</h2>
+            
+            <div class="steps">
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <h3 class="font-bold mb-2">KakaoTalk 추가</h3>
+                    <p>QBB LIVE 공식 계정 검색 및 추가</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <h3 class="font-bold mb-2">「QBB」 전송</h3>
+                    <p>키워드 전송 시 자동 푸시 트리거</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <h3 class="font-bold mb-2">절차 설명 받기</h3>
+                    <p>플랫폼 핵심 절차 가이드 받기</p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="http://qr.kakao.com/talk/lRlv5CUyWb4JEpxh2WY.rMVhxaw-" style="display: inline-block; background: #e1363c; color: #fff; text-decoration: none; padding: 15px 40px; font-size: 1.2rem; border-radius: 50px; font-weight: bold; box-shadow: 0 4px 10px rgba(225, 54, 60, 0.3);">
+                    지금 시작하기
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="py-12 text-center" style="background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff;">
+        <div class="container">
+            <h2 class="text-2xl md:text-3xl font-bold mb-8" style="line-height: 1.4;">열심히만 해서 되지 않습니다<br>이제는 그 방법을 바꿔야 합니다!</h2>
+            
+            <a href="http://qr.kakao.com/talk/lRlv5CUyWb4JEpxh2WY.rMVhxaw-" style="display: inline-block; background: #fff; color: #7c3aed; padding: 1.2rem 2.5rem; border-radius: 50px; font-weight: bold; font-size: 1.1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.2); transition: transform 0.2s;">
+                👉 KakaoTalk 추가하고 「QBB」 전송하기
+            </a>
+            <p style="margin-top: 1.5rem; font-size: 1rem; opacity: 0.9;">지금 바로 시스템에 대해 알아보세요</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 QBB LIVE. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Floating Button -->
+    <a href="http://qr.kakao.com/talk/lRlv5CUyWb4JEpxh2WY.rMVhxaw-" class="float-btn">
+        <img src="icon_talk-BXbBnXt7.png" alt="KakaoTalk" class="float-icon">
+    </a>
+
+</body>
 </html>
